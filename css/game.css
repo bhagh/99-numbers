@@ -289,7 +289,24 @@ body {
   flex-direction: column;
   align-items: stretch;
   gap: 0.55rem;
-  width: min(100%, 14rem);
+  width: min(100%, 18rem);
+}
+
+.controls-row {
+  display: flex;
+  gap: 0.55rem;
+  width: 100%;
+}
+
+.controls-row .btn {
+  flex: 1;
+  min-width: 0;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.controls-row[hidden] {
+  display: none;
 }
 
 .btn {

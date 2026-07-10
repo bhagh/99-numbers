@@ -18,6 +18,8 @@
   const startBtn = document.getElementById("start-btn");
   const passBtn = document.getElementById("pass-btn");
   const newGameBtn = document.getElementById("new-game-btn");
+  const viewSummaryBtn = document.getElementById("view-summary-btn");
+  const postGameControls = document.getElementById("post-game-controls");
   const statusEl = document.getElementById("status");
   const finalScoreEl = document.getElementById("final-score");
   const overlayEl = document.getElementById("overlay");
@@ -334,7 +336,7 @@
     setCellsInteractive(false);
     passBtn.hidden = true;
     startBtn.hidden = true;
-    newGameBtn.hidden = true;
+    postGameControls.hidden = true;
 
     const pyramid = pyramidPoints();
     const remainingCards = cardsLeft();
@@ -388,12 +390,19 @@
     overlayEl.hidden = true;
     startBtn.hidden = true;
     passBtn.hidden = true;
-    newGameBtn.hidden = false;
+    postGameControls.hidden = false;
     if (lastScore !== null) {
       finalScoreEl.hidden = false;
       finalScoreEl.textContent = `Final score: ${lastScore} pts`;
     }
-    setStatus("Review your pyramid, or start a new game.");
+    setStatus("");
+  }
+
+  function openSummary() {
+    if (lastScore === null) return;
+    postGameControls.hidden = true;
+    finalScoreEl.hidden = true;
+    overlayEl.hidden = false;
   }
 
   function resetBoard() {
@@ -414,7 +423,7 @@
     startBtn.disabled = false;
     startBtn.textContent = "Start Game";
     passBtn.hidden = true;
-    newGameBtn.hidden = true;
+    postGameControls.hidden = true;
     overlayEl.hidden = true;
     helpOverlayEl.hidden = true;
     finalScoreEl.hidden = true;
@@ -427,14 +436,19 @@
     resetBoard();
     playing = true;
     startBtn.hidden = true;
-    newGameBtn.hidden = true;
+    postGameControls.hidden = true;
     passBtn.hidden = false;
     startTimer();
     drawNextCard();
   }
 
+  document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+  });
+
   startBtn.addEventListener("click", startGame);
   newGameBtn.addEventListener("click", startGame);
+  viewSummaryBtn.addEventListener("click", openSummary);
   passBtn.addEventListener("click", onPass);
   closeBtn.addEventListener("click", closeOverlay);
   helpBtn.addEventListener("click", openHelp);
