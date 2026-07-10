@@ -12,3 +12,4 @@ Open [the live game](https://bhagh.github.io/99-numbers/) or open `index.html` l
 - Valid placement: +3s · Invalid: −5s · Pass skips a card
 - Win score: pyramid total + 5× seconds left + 1× cards left
 - Time out / not enough cards: half the pyramid total
+- TEST EDIT
