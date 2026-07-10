@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>99 Numbers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+  <main class="game" id="game">
+    <header class="game-header">
+      <h1 class="brand">99 Numbers</h1>
+      <div class="timer" id="timer" aria-live="polite">
+        <span class="timer-label">Time</span>
+        <span class="timer-value" id="timer-value">60.0</span>
+      </div>
+      <button type="button" class="help-btn" id="help-btn" aria-label="How to play">?</button>
+    </header>
+
+    <section class="pyramid" id="pyramid" aria-label="Number pyramid"></section>
+
+    <section class="stack-area" aria-label="Card stack">
+      <div class="stack" id="stack">
+        <div class="stack-back" aria-hidden="true"></div>
+        <div class="stack-back stack-back--2" aria-hidden="true"></div>
+        <button type="button" class="card card--face-down" id="current-card" disabled aria-label="Current card">
+          <span class="card-value" id="card-value">?</span>
+        </button>
+      </div>
+      <p class="stack-count" id="stack-count">99 cards</p>
+    </section>
+
+    <section class="controls" id="controls">
+      <button type="button" class="btn btn--primary" id="start-btn">Start Game</button>
+      <button type="button" class="btn btn--secondary" id="pass-btn" hidden>Pass</button>
+      <button type="button" class="btn btn--primary" id="new-game-btn" hidden>New Game</button>
+    </section>
+
+    <p class="final-score" id="final-score" hidden></p>
+    <p class="status" id="status" aria-live="polite"></p>
+  </main>
+
+  <div class="overlay" id="overlay" hidden>
+    <div class="overlay-panel" role="dialog" aria-labelledby="overlay-title">
+      <h2 class="overlay-title" id="overlay-title">You Win!</h2>
+      <p class="overlay-score" id="overlay-score"></p>
+      <ul class="score-breakdown" id="score-breakdown"></ul>
+      <button type="button" class="btn btn--primary" id="close-btn">Close</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="help-overlay" hidden>
+    <div class="overlay-panel overlay-panel--help" role="dialog" aria-labelledby="help-title">
+      <h2 class="overlay-title" id="help-title">How to Play</h2>
+      <div class="help-rules">
+        <p>Fill the pyramid with numbers from a shuffled stack of <strong>99 unique cards</strong> labeled 1–99 (no repeats). You have 60 seconds.</p>
+        <p><strong>Place or replace</strong> the face-up card into any space on the pyramid from the current value shown in the flipped-over card of the stack.</p>
+        <p><strong>Row rules:</strong> After a placement, that row’s total must be less than or equal to the row above, and greater than or equal to the row below. This check is only if the row above and/or below has any numbers.</p>
+        <p><strong>Placing a valid number:</strong> +3 seconds to your time, and the next card in the stack is revealed.</p>
+        <p><strong>Placing an invalid number:</strong> −5 seconds to your time. You can still try and play the current card, or pass.</p>
+        <p><strong>Pass</strong> skips the current card and reveals the next one in the stack. Once you pass on a card, you can't use it again.</p>
+        <p><strong>To WIN:</strong> Fill all 10 spaces. Your score will be equal to all values in the pyramid, + 5 points per second left on the clock, + 1 point per card left in the stack.</p>
+        <p><strong>Time’s up, out of cards, or not enough cards left to fill the remaining spaces:</strong> Your score is half of the pyramid total.</p>
+      </div>
+      <button type="button" class="btn btn--primary" id="help-close-btn">Got it</button>
+    </div>
+  </div>
+
+  <script src="js/game.js"></script>
+</body>
+</html>
