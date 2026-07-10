@@ -27,6 +27,7 @@
   const overlayEl = document.getElementById("overlay");
   const overlayTitleEl = document.getElementById("overlay-title");
   const overlayScoreEl = document.getElementById("overlay-score");
+  const overlayPyramidEl = document.getElementById("overlay-pyramid");
   const scoreBreakdownEl = document.getElementById("score-breakdown");
   const closeBtn = document.getElementById("close-btn");
   const helpBtn = document.getElementById("help-btn");
@@ -104,17 +105,16 @@
   function wouldBeValid(row, number, replacingValue = null) {
     const newSum = rowSum(row) - (replacingValue ?? 0) + number;
 
-    // No cards in adjacent rows → always fits (edge caps still apply).
-    if (row === 0) {
-      if (newSum > TOP_MAX) return false;
-    } else if (rowHasCards(row - 1) && newSum > rowSum(row - 1)) {
-      return false;
+    if (row === 0 && newSum > TOP_MAX) return false;
+    if (row === ROW_SIZES.length - 1 && newSum < BOTTOM_MIN) return false;
+
+    // Only compare against rows that already have at least one number.
+    for (let above = 0; above < row; above += 1) {
+      if (rowHasCards(above) && newSum > rowSum(above)) return false;
     }
 
-    if (row === ROW_SIZES.length - 1) {
-      if (newSum < BOTTOM_MIN) return false;
-    } else if (rowHasCards(row + 1) && newSum < rowSum(row + 1)) {
-      return false;
+    for (let below = row + 1; below < ROW_SIZES.length; below += 1) {
+      if (rowHasCards(below) && newSum < rowSum(below)) return false;
     }
 
     return true;
@@ -325,6 +325,29 @@
     });
   }
 
+  function renderOverlayPyramid() {
+    overlayPyramidEl.innerHTML = "";
+
+    ROW_SIZES.forEach((_, row) => {
+      const rowEl = document.createElement("div");
+      rowEl.className = "overlay-pyramid-row";
+
+      cells
+        .filter((c) => c.row === row)
+        .forEach((cell) => {
+          const cellEl = document.createElement("div");
+          cellEl.className = "overlay-pyramid-cell";
+          if (cell.value !== null) {
+            cellEl.classList.add("overlay-pyramid-cell--filled");
+            cellEl.textContent = String(cell.value);
+          }
+          rowEl.appendChild(cellEl);
+        });
+
+      overlayPyramidEl.appendChild(rowEl);
+    });
+  }
+
   function stopTimer() {
     if (timerId !== null) {
       clearInterval(timerId);
@@ -405,6 +428,7 @@
 
     overlayTitleEl.textContent = title;
     overlayScoreEl.textContent = `${score} pts`;
+    renderOverlayPyramid();
     renderBreakdown(lines);
     finalScoreEl.hidden = true;
     overlayEl.hidden = false;
