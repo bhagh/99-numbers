@@ -457,7 +457,7 @@
     finalScoreEl.hidden = true;
     finalScoreEl.textContent = "";
     timerEl.classList.remove("timer--low", "timer--flash-good", "timer--flash-bad");
-    setStatus("Press Start to shuffle and flip the first card.");
+    setStatus("");
   }
 
   function startGame() {
