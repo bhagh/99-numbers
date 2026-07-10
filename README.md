@@ -4,7 +4,7 @@ A mobile-friendly pyramid number puzzle. Place cards from a shuffled stack of 1â
 
 ## Play
 
-Open [the live game](https://PLACEHOLDER.github.io/99-numbers/) or open `index.html` locally in a browser.
+Open [the live game](https://bhagh.github.io/99-numbers/) or open `index.html` locally in a browser.
 
 ## Rules (short)
 
