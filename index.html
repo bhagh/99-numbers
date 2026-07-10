@@ -14,11 +14,13 @@
   <main class="game" id="game">
     <header class="game-header">
       <h1 class="brand">99 Numbers</h1>
-      <div class="timer" id="timer" aria-live="polite">
-        <span class="timer-label">Time</span>
-        <span class="timer-value" id="timer-value">60.0</span>
+      <div class="timer-wrap">
+        <div class="timer" id="timer" aria-live="polite">
+          <span class="timer-label">Time</span>
+          <span class="timer-value" id="timer-value">60.0</span>
+        </div>
+        <span class="timer-delta" id="timer-delta" aria-hidden="true"></span>
       </div>
-      <button type="button" class="help-btn" id="help-btn" aria-label="How to play">?</button>
     </header>
 
     <section class="pyramid" id="pyramid" aria-label="Number pyramid"></section>
@@ -35,7 +37,10 @@
     </section>
 
     <section class="controls" id="controls">
-      <button type="button" class="btn btn--primary" id="start-btn">Start Game</button>
+      <div class="controls-row" id="pre-game-controls">
+        <button type="button" class="btn btn--primary" id="start-btn">Start Game</button>
+        <button type="button" class="btn btn--secondary" id="help-btn">How to Play</button>
+      </div>
       <button type="button" class="btn btn--secondary" id="pass-btn" hidden>Pass</button>
       <div class="controls-row" id="post-game-controls" hidden>
         <button type="button" class="btn btn--secondary" id="view-summary-btn">View Summary</button>
@@ -45,6 +50,7 @@
 
     <p class="final-score" id="final-score" hidden></p>
     <p class="status" id="status" aria-live="polite"></p>
+    <p class="build-version" id="build-version"></p>
   </main>
 
   <div class="overlay" id="overlay" hidden>
@@ -73,6 +79,7 @@
     </div>
   </div>
 
+  <script src="js/version.js"></script>
   <script src="js/game.js"></script>
 </body>
 </html>

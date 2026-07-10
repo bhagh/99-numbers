@@ -12,6 +12,7 @@
   const pyramidEl = document.getElementById("pyramid");
   const timerEl = document.getElementById("timer");
   const timerValueEl = document.getElementById("timer-value");
+  const timerDeltaEl = document.getElementById("timer-delta");
   const currentCardEl = document.getElementById("current-card");
   const cardValueEl = document.getElementById("card-value");
   const stackCountEl = document.getElementById("stack-count");
@@ -19,6 +20,7 @@
   const passBtn = document.getElementById("pass-btn");
   const newGameBtn = document.getElementById("new-game-btn");
   const viewSummaryBtn = document.getElementById("view-summary-btn");
+  const preGameControls = document.getElementById("pre-game-controls");
   const postGameControls = document.getElementById("post-game-controls");
   const statusEl = document.getElementById("status");
   const finalScoreEl = document.getElementById("final-score");
@@ -30,6 +32,9 @@
   const helpBtn = document.getElementById("help-btn");
   const helpOverlayEl = document.getElementById("help-overlay");
   const helpCloseBtn = document.getElementById("help-close-btn");
+  const buildVersionEl = document.getElementById("build-version");
+
+  buildVersionEl.textContent = `Version ${window.GAME_VERSION || "0.0.0"}`;
 
   /** @type {{ value: number | null, row: number, index: number, el: HTMLButtonElement }[]} */
   let cells = [];
@@ -132,6 +137,22 @@
     timerEl.classList.add(kind === "good" ? "timer--flash-good" : "timer--flash-bad");
   }
 
+  function showTimeDelta(delta) {
+    if (!delta) return;
+    const label = delta > 0 ? `+${delta}` : String(delta);
+    timerDeltaEl.textContent = label;
+    timerDeltaEl.classList.remove(
+      "timer-delta--show",
+      "timer-delta--good",
+      "timer-delta--bad"
+    );
+    void timerDeltaEl.offsetWidth;
+    timerDeltaEl.classList.add(
+      "timer-delta--show",
+      delta > 0 ? "timer-delta--good" : "timer-delta--bad"
+    );
+  }
+
   function setStatus(message, kind = "") {
     statusEl.textContent = message;
     statusEl.className = "status" + (kind ? ` status--${kind}` : "");
@@ -203,6 +224,7 @@
   function adjustTime(delta) {
     secondsLeft = Math.max(0, secondsLeft + delta);
     updateTimerDisplay();
+    showTimeDelta(delta);
     if (secondsLeft <= 0) {
       endGame(false, "timeout");
     }
@@ -336,6 +358,8 @@
     setCellsInteractive(false);
     passBtn.hidden = true;
     startBtn.hidden = true;
+    helpBtn.hidden = true;
+    preGameControls.hidden = true;
     postGameControls.hidden = true;
 
     const pyramid = pyramidPoints();
@@ -389,6 +413,8 @@
   function closeOverlay() {
     overlayEl.hidden = true;
     startBtn.hidden = true;
+    helpBtn.hidden = true;
+    preGameControls.hidden = true;
     passBtn.hidden = true;
     postGameControls.hidden = false;
     if (lastScore !== null) {
@@ -422,6 +448,8 @@
     startBtn.hidden = false;
     startBtn.disabled = false;
     startBtn.textContent = "Start Game";
+    helpBtn.hidden = false;
+    preGameControls.hidden = false;
     passBtn.hidden = true;
     postGameControls.hidden = true;
     overlayEl.hidden = true;
@@ -436,6 +464,8 @@
     resetBoard();
     playing = true;
     startBtn.hidden = true;
+    helpBtn.hidden = true;
+    preGameControls.hidden = true;
     postGameControls.hidden = true;
     passBtn.hidden = false;
     startTimer();
@@ -447,7 +477,7 @@
   });
 
   startBtn.addEventListener("click", startGame);
-  newGameBtn.addEventListener("click", startGame);
+  newGameBtn.addEventListener("click", resetBoard);
   viewSummaryBtn.addEventListener("click", openSummary);
   passBtn.addEventListener("click", onPass);
   closeBtn.addEventListener("click", closeOverlay);

@@ -48,8 +48,7 @@ body {
 
 button,
 .btn,
-.cell,
-.help-btn {
+.cell {
   touch-action: manipulation;
 }
 
@@ -62,7 +61,6 @@ button,
 }
 
 .game-header {
-  position: relative;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -81,8 +79,14 @@ button,
   line-height: 1;
 }
 
-.timer {
+.timer-wrap {
   grid-column: 2;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.timer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,31 +98,30 @@ button,
   background: rgba(255, 253, 248, 0.7);
 }
 
-.help-btn {
+.timer-delta {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 2.25rem;
-  height: 2.25rem;
-  border: 2px solid var(--line);
-  border-radius: 999px;
-  background: rgba(255, 253, 248, 0.85);
-  color: var(--ink);
+  left: calc(100% + 0.35rem);
+  top: 50%;
+  transform: translateY(-50%);
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
   line-height: 1;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  padding: 0;
-  transition: border-color 0.12s ease, background 0.12s ease;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
 }
 
-.help-btn:hover,
-.help-btn:focus-visible {
-  border-color: var(--ink);
-  outline: none;
+.timer-delta--show {
+  animation: timer-delta-pop 0.9s ease forwards;
+}
+
+.timer-delta--good {
+  color: var(--good);
+}
+
+.timer-delta--bad {
+  color: var(--bad);
 }
 
 .timer-label {
@@ -219,8 +222,8 @@ button,
 
 .stack {
   position: relative;
-  width: calc(var(--cell) * 1.15);
-  height: calc(var(--cell) * 1.35);
+  width: var(--cell);
+  height: var(--cell);
 }
 
 .stack-back {
@@ -373,6 +376,17 @@ button,
 
 .status--bad {
   color: var(--bad);
+}
+
+.build-version {
+  margin: 0.35rem 0 0;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: 0.7;
 }
 
 .overlay {
@@ -578,6 +592,25 @@ button,
   }
   40% {
     box-shadow: 0 0 0 4px rgba(163, 59, 45, 0.35);
+  }
+}
+
+@keyframes timer-delta-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(-35%);
+  }
+  18% {
+    opacity: 1;
+    transform: translateY(-55%);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-70%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-90%);
   }
 }
 
